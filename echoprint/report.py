@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 
+from . import config
 from .scoring import Identification
 
 __all__ = ["format_result", "result_to_dict"]
@@ -28,7 +29,8 @@ def result_to_dict(ident: Identification) -> dict:
     }
 
 
-def format_result(ident: Identification, clip_name: str = "clip") -> str:
+def format_result(ident: Identification, clip_name: str = "clip",
+                  top_n: int = 1) -> str:
     """Terminal report for one identification."""
     lines = [f"--- {clip_name} ---"]
     if ident.matched:
@@ -41,6 +43,11 @@ def format_result(ident: Identification, clip_name: str = "clip") -> str:
                 f"{ident.aligned_score})"
             )
     lines.append(ident.breakdown())
+    if top_n > 1 and ident.ranked:
+        lines.append("top candidates:")
+        for rank, (tid, offset, score) in enumerate(ident.ranked[:top_n], 1):
+            secs = round(offset * config.HOP / config.SAMPLE_RATE, 2)
+            lines.append(f"  {rank}. {tid:<28} score {score:>4}  offset {secs:.2f}s")
     lines.append(f"why: {ident.reason}")
     return "\n".join(lines)
 
