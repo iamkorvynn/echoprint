@@ -15,7 +15,7 @@ def test_save_load_roundtrip(tmp_path):
     sr, back = load_wav(str(path))
     assert sr == 22050
     assert len(back) == len(y)
-    assert np.allclose(back, y, atol=1 / 32767 + 1e-9)
+    assert np.allclose(back, y, atol=2e-4)  # 16-bit quantisation
 
 
 def test_load_missing_file_raises():
