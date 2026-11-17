@@ -49,7 +49,8 @@ Or install the CLI: `pip install -e .` then use `echoprint ...` directly.
 | Command | What it does |
 |---|---|
 | `echoprint fingerprint <library-dir> [--db PATH]` | Build the hash DB from a folder of `.wav` files |
-| `echoprint identify <clip.wav> [--db PATH] [--json]` | Top match + score, or an honest "no match" |
+| `echoprint identify <clip.wav> [--db PATH] [--json] [--top N] [--min-score N]` | Top match + score, or an honest "no match" |
+| `echoprint batch <clips-dir> [--db PATH]` | Identify every `.wav` in a folder, one line each |
 | `echoprint show <track.wav> [--plots DIR]` | ASCII spectrogram + constellation, optional PNGs |
 | `echoprint list [--db PATH]` | Tracks in the DB |
 | `echoprint stats [--db PATH]` | DB statistics |
