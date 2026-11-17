@@ -1,31 +1,33 @@
 # Threshold tuning — why 20% of max, not a percentile
 
 During development the peak threshold was the difference between
-a matcher that works and one that doesn't. The experiment, on a
-5 s clip from track 03 and the same clip with white noise:
+a matcher that works and one that doesn't. The experiment, on the
+real 5 s demo clip from track 03 and noisy versions of it
+(reproduce with `python scripts/compare_thresholds.py`):
 
 ## Percentile threshold (top 10% of spectrogram bins)
 
-| Clip | Peaks | Hashes shared with the true track |
+| Clip | Peaks | Hashes shared with the clean clip |
 |---|---|---|
-| clean | 163 | 123 |
-| + noise std 0.05 | 1686 | 0 |
-| + noise std 0.10 | 1696 | 0 |
+| clean | 80 | 234 (all of them) |
+| + noise std 0.05 | 1520 | 1 |
+| + noise std 0.10 | 1575 | 2 |
+| + noise std 0.20 | 1618 | 3 |
 
 White noise fills the low percentiles, so the threshold admits
 thousands of noise-only local maxima and the real peaks drown.
-The noisy clip shares **zero** hashes with its own track.
+The noisy clip shares **1–3** hashes with its own clean version.
 
 ## Fraction-of-max threshold (peak > 20% of the loudest log-magnitude)
 
-| Clip | Peaks | Hashes shared with the true track |
+| Clip | Peaks | Hashes shared with the clean clip |
 |---|---|---|
-| clean | 40 | 81 |
-| + noise std 0.05 | 40 | 80 |
-| + noise std 0.10 | 40 | 83 |
-| + noise std 0.20 | 54 | 69 |
+| clean | 51 | 169 (all of them) |
+| + noise std 0.05 | 51 | 137 |
+| + noise std 0.10 | 51 | 105 |
+| + noise std 0.20 | 53 | 62 |
 
-Noise bins sit far below 20% of the loudest bin, so the same ~40
+Noise bins sit far below 20% of the loudest bin, so the same ~51
 peaks survive at every noise level and the hashes line up. The
 reproduction script is `scripts/compare_thresholds.py`.
 
