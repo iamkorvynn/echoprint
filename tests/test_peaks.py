@@ -31,7 +31,7 @@ def test_tone_has_few_peaks():
     # A pure tone is basically one frequency: a handful of peaks, not hundreds.
     assert 0 < len(peaks) < 100
     freq_bins = {p[1] for p in peaks}
-    assert min(freq_bins) <= 45 <= max(freq_bins)  # ~440 Hz bin
+    assert min(freq_bins) <= 41 <= max(freq_bins)  # 440 Hz -> bin ~41
 
 
 def test_peak_stats(tone_melody):
