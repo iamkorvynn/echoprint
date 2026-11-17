@@ -20,7 +20,9 @@ catalogue. Adding real music would need licensing and a real store.
 Moderate white noise (std 0.08) still matches with a lower score.
 Heavy noise, a loud room, or a phone held far from a speaker can
 push a genuine match below the 5-hash threshold — and then the
-answer is "no match", not a guess.
+answer is "no match", not a guess. The thinnest track is 04
+(Low End Theory Club): 29 peaks, clean score 8 — it passes, but
+with the least margin in the library.
 
 ## Short clips
 
