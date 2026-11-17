@@ -1,0 +1,13 @@
+track                         peaks  hashes   fp ms   id ms  result
+01-neon-freeway                 109     248   116.8    70.8  OK 105
+02-porch-light                  193     775   206.8   102.4  OK 212
+03-empty-rooms                  101     249   305.3    19.5  OK 73
+04-low-end-theory-club           29      29   122.5    13.4  OK 8
+05-garage-door                  110     196   124.0    12.9  OK 154
+06-confetti-sky                 126     387   222.6    78.6  OK 134
+07-slow-goodbye                 468    2024   282.6    24.2  OK 354
+08-monsoon-raag                 167     605   131.8    79.9  OK 132
+09-rainy-window                  81     262   413.4    13.3  OK 63
+10-crown-of-strings             256     973   218.7   101.4  OK 306
+
+10/10 middle clips identified correctly.
