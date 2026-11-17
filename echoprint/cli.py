@@ -61,11 +61,12 @@ def cmd_identify(args) -> int:
     sr, y = load_wav(args.clip)
     timer = Timer()
     with timer.time("identify"):
-        ident = identify_audio(y, db)
+        ident = identify_audio(y, db, min_score=args.min_score)
     if args.json:
         print(format_result_json(ident))
     else:
-        print(format_result(ident, clip_name=os.path.basename(args.clip)))
+        print(format_result(ident, clip_name=os.path.basename(args.clip),
+                            top_n=args.top))
         if args.verbose:
             print(timer.report())
     return 0
@@ -117,6 +118,10 @@ def build_parser() -> argparse.ArgumentParser:
     p.add_argument("clip")
     p.add_argument("--db", default=config.DEFAULT_DB_PATH)
     p.add_argument("--json", action="store_true", help="print one-line JSON")
+    p.add_argument("--top", type=int, default=1,
+                   help="show the top N candidates")
+    p.add_argument("--min-score", type=int, default=None,
+                   help="override the minimum aligned-score threshold (default 5)")
     p.add_argument("--verbose", "-v", action="store_true")
     p.set_defaults(func=cmd_identify)
 
