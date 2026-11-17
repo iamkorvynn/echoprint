@@ -30,14 +30,16 @@ def fingerprint_audio(y: np.ndarray,
 
 
 def identify_audio(y: np.ndarray, db: FingerprintDatabase,
-                   sr: int = config.SAMPLE_RATE) -> Identification:
+                   sr: int = config.SAMPLE_RATE,
+                   min_score: int | None = None) -> Identification:
     """Identify mono audio against a fingerprint database."""
     fp = fingerprint_audio(y, sr)
     result = match_clip(fp["hashes"], db)
-    return decide(result, db)
+    return decide(result, db, min_score=min_score)
 
 
-def identify_file(path: str, db: FingerprintDatabase) -> Identification:
+def identify_file(path: str, db: FingerprintDatabase,
+                  min_score: int | None = None) -> Identification:
     """Identify a WAV file against a fingerprint database."""
     _sr, y = load_wav(path)
-    return identify_audio(y, db)
+    return identify_audio(y, db, min_score=min_score)
