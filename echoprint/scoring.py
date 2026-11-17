@@ -62,8 +62,13 @@ class Identification:
         return "\n".join(lines)
 
 
-def decide(result: MatchResult, db) -> Identification:
-    """Apply the thresholds to a MatchResult and build an Identification."""
+def decide(result: MatchResult, db, min_score: int | None = None) -> Identification:
+    """Apply the thresholds to a MatchResult and build an Identification.
+
+    ``min_score`` overrides ``config.MIN_ALIGNED_SCORE`` for this
+    one decision (the CLI's ``--min-score`` flag).
+    """
+    threshold = config.MIN_ALIGNED_SCORE if min_score is None else min_score
     ranked = result.ranked_tracks()
     if not ranked:
         return Identification(
@@ -88,10 +93,10 @@ def decide(result: MatchResult, db) -> Identification:
         runner_up_track=runner_up_track,
         ranked=ranked,
     )
-    if score < config.MIN_ALIGNED_SCORE:
+    if score < threshold:
         ident.reason = (
             f"best aligned score {score} is below the threshold "
-            f"{config.MIN_ALIGNED_SCORE} — too few hashes lined up"
+            f"{threshold} — too few hashes lined up"
         )
         return ident
     if runner_score > 0 and score < config.MIN_WINNER_RATIO * runner_score:
