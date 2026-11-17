@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "echoprint"
-version = "0.1.0"
+version = "0.1.1"
 description = "Audio fingerprinting from scratch (Wang 2003 constellation-map method) — hear a clip, name the track."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -16,3 +16,10 @@ echoprint = "echoprint.cli:main"
 
 [tool.setuptools.packages.find]
 include = ["echoprint*"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "W"]
