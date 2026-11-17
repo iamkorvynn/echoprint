@@ -1,0 +1,3 @@
+# Treat generated WAVs as binary (they are) and keep line endings sane.
+*.wav binary
+*.png binary
