@@ -17,11 +17,12 @@ from echoprint.synth import track01, track03, track05
 def melody_audio(midis, note_s: float = 0.3, sr: int = 22050) -> np.ndarray:
     """A simple plucked melody — deterministic, no randomness."""
     from echoprint.synth.instruments import pluck
-    y = np.zeros(int(len(midis) * note_s * sr))
+    seg = int(note_s * sr)
+    y = np.zeros(len(midis) * seg)
     for i, midi in enumerate(midis):
         note = pluck(midi_to_freq(midi), note_s, amp=0.5)
-        start = int(i * note_s * sr)
-        y[start:start + len(note)] += note
+        start = i * seg
+        y[start:start + len(note)] += note[:seg]
     return y
 
 
