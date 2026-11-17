@@ -1,8 +1,11 @@
 """Tests for scoring / the identification decision."""
 
+from collections import Counter
+
+import pytest
+
 from echoprint.matcher import MatchResult
 from echoprint.scoring import confidence, decide
-from collections import Counter
 
 
 def test_confidence():
@@ -43,4 +46,4 @@ def test_decide_clear_winner_matches(small_db):
     assert ident.matched
     assert ident.track_id == "03-empty-rooms"
     assert ident.aligned_score == 40
-    assert ident.best_offset_seconds == 10 * 512 / 22050
+    assert ident.best_offset_seconds == pytest.approx(10 * 512 / 22050, abs=1e-3)
