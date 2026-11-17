@@ -72,6 +72,28 @@ def cmd_identify(args) -> int:
     return 0
 
 
+def cmd_batch(args) -> int:
+    db = FingerprintDatabase.load(args.db)
+    clips = find_wavs(args.clips_dir)
+    if not clips:
+        print(f"no .wav files found in {args.clips_dir!r}", file=sys.stderr)
+        return 2
+    n_matched = 0
+    for path in clips:
+        sr, y = load_wav(path)
+        ident = identify_audio(y, db)
+        name = os.path.basename(path)
+        if ident.matched:
+            n_matched += 1
+            print(f"{name:<24} MATCH    {ident.track_id:<28} "
+                  f"score {ident.aligned_score}")
+        else:
+            print(f"{name:<24} NO MATCH (closest: {ident.track_id or '-'}, "
+                  f"score {ident.aligned_score})")
+    print(f"\n{n_matched}/{len(clips)} clips matched.")
+    return 0
+
+
 def cmd_show(args) -> int:
     show_track(args.track, out_dir=args.plots)
     return 0
@@ -124,6 +146,11 @@ def build_parser() -> argparse.ArgumentParser:
                    help="override the minimum aligned-score threshold (default 5)")
     p.add_argument("--verbose", "-v", action="store_true")
     p.set_defaults(func=cmd_identify)
+
+    p = sub.add_parser("batch", help="identify every .wav in a directory")
+    p.add_argument("clips_dir")
+    p.add_argument("--db", default=config.DEFAULT_DB_PATH)
+    p.set_defaults(func=cmd_batch)
 
     p = sub.add_parser("show", help="show a track's spectrogram + constellation")
     p.add_argument("track")
