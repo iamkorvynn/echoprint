@@ -20,7 +20,7 @@ from .database import FingerprintDatabase
 from .identify import fingerprint_audio, identify_audio, identify_file
 from .scoring import Identification
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 __all__ = [
     "FingerprintDatabase",
