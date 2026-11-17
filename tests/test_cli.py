@@ -55,7 +55,7 @@ def test_cli_fingerprint_empty_dir(tmp_path):
     assert _run(["fingerprint", str(tmp_path)]) == 2
 
 
-def test_cli_identify_missing_db(tmp_path):
+def test_cli_identify_missing_db(tmp_path, track03_audio):
     clip = tmp_path / "clip.wav"
     save_wav(str(clip), track03_audio)
     assert _run(["identify", str(clip), "--db", str(tmp_path / "no.json")]) == 2
