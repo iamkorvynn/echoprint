@@ -18,5 +18,11 @@ plots:
 benchmark:
 	python scripts/benchmark.py
 
+verify:
+	python scripts/verify_library.py
+
+batch:
+	python -m echoprint batch demo_clips/
+
 clean:
 	rm -rf __pycache__ echoprint/__pycache__ echoprint/synth/__pycache__ tests/__pycache__ .pytest_cache
